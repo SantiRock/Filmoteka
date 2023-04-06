@@ -2,67 +2,66 @@
 import debounce from "lodash/debounce";
 import render from "./index";
 
-
 const apiKey = '0a3a4e00d84de20a8f1b6dfc8a7cdfd5';
 const searchInput = document.getElementById('search-input');
 const errorp = document.querySelector('.errormsn');
 const moviesContainer = document.querySelector('.films');
+const pages = document.querySelector('.pages');
 const DEBOUNCE_DELAY = 300;
 
-// Función que carga películas populares en la página de inicio
-/*function loadPopularMovies() {
-    fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`)
-        .then(response => response.json())
-        .then(data => {
-            data.results.forEach(movie => {
-                const movieElement = createMovieElement(movie);
-                moviesContainer.appendChild(movieElement);
-            })
-        })
-        .catch(error => console.error(error));
-} */
+let word = '';
+let currentPage = 1;
+let totalPages = 50;
+const pagesToShow = 5;
+const moviesPerPage = 12;
 
-// Función que realiza la búsqueda de películas
 
-function searchMovies1(name) {
-    return fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${name}`)
+// Fetch ------
+function searchMovies() {
+    return fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${word}&page=${currentPage}`)
     .then((response) => {
         if (!response.ok) {
             throw new Error(response.status);
         }
         return response.json();
     })
+    .then(data => {
+        if (data.total_results === 0) {
+            errorp.textContent = 'Search result not successful. Enter the correct movie name and try again';
+            moviesContainer.innerHTML = '';
+        } else {
+            totalPages = data.total_pages;
+            errorp.textContent = '';
+            prerender(data);
+            pagination();
+        }
+    })
+    .catch(error => console.error(error));
 }
-
 
 searchInput.addEventListener('input',
     debounce(() => {
-        let trim = searchInput.value.trim();
-        if(trim === '') {
+        word = searchInput.value.trim();
+        if(word === '') {
             errorp.textContent = '';
             render();
         } else {
-            searchMovies1(trim)
-            .then(data => {
-                if (data.total_results === 0) {
-                    errorp.textContent = 'Search result not successful. Enter the correct movie name and try again';
-                    moviesContainer.innerHTML = '';
-                } else {
-                    errorp.textContent = '';
-                    moviesContainer.innerHTML = '';
-                    data.results.forEach(movie => {
-                        const movieElement = createMovieElement(movie);
-                        moviesContainer.appendChild(movieElement);
-                    })
-                }
-            })
-            .catch(error => console.error(error));
+            searchMovies()       
         }
     }, DEBOUNCE_DELAY)
-
 );
 
 // Función que crea un elemento de película
+
+function prerender (data) {
+    moviesContainer.innerHTML = '';
+    const moviesToDisplay = data.results.slice(0, moviesPerPage);
+    moviesToDisplay.forEach(movie => {
+        const movieElement = createMovieElement(movie);
+        moviesContainer.appendChild(movieElement);
+    })
+}
+
 function createMovieElement(movie) {
     const movieElement = document.createElement('div');
     movieElement.classList.add('films__card');
@@ -80,40 +79,106 @@ function createMovieElement(movie) {
     return movieElement;
 }
 
-/*
-function searchMovies(event) {
-    event.preventDefault();
+// Pagination
 
-    const query = searchInput.value.trim();
-
-    if (searchInput.value === '') {
-       uploadMovies();
-    } else {
-        fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.total_results === 0) {
-                const errorParagraph = document.createElement('p');
-                errorParagraph.innerText = 'Search result not successful. Enter the correct movie name and try again';
-                errorParagraph.style.backgroundColor = 'transparent';
-                errorParagraph.style.color = '#FF0000';
-                errorParagraph.style.position = 'fixed';
-                errorParagraph.style.top = '15%';
-                errorParagraph.style.left = '50%';
-                errorParagraph.style.transform = 'translate(-50%, -50%)';
-                document.body.appendChild(errorParagraph);
-                setTimeout(() => {
-                    errorParagraph.parentNode.removeChild(errorParagraph);
-                }, 3000);
-                moviesContainer.innerHTML = '';
-            } else {
-                moviesContainer.innerHTML = '';
-                data.results.forEach(movie => {
-                    const movieElement = createMovieElement(movie);
-                    moviesContainer.appendChild(movieElement);
-                })
-            }
-        })
-        .catch(error => console.error(error));
+pages.addEventListener('click', event => {
+    const btn = event.target;
+    if (btn.tagName !== 'BUTTON') return;
+    if (btn.id === 'prev' && currentPage > 1) {
+        currentPage--;
+        searchMovies();
+    } else if (btn.id === 'first' && currentPage > 1) {
+        currentPage = 1;
+        searchMovies();
+    } else if (btn.id === 'next' && currentPage < totalPages) {
+        currentPage++;
+        searchMovies();
+    } else if (btn.id === 'last' && currentPage < totalPages) {
+        currentPage = totalPages;
+        searchMovies();
+    } else if (btn.id !== 'prev' && btn.id !== 'next' && btn.id) {
+        currentPage = Number(btn.id);
+        searchMovies();
     }
-}*/
+});
+
+const pagination = () => {
+    pages.innerHTML = '';
+
+    const prevBtn = document.createElement('button');
+    prevBtn.textContent = '<';
+    prevBtn.classList.add('pagebtn');
+    prevBtn.id = 'prev';
+    prevBtn.disabled = currentPage === 1;
+    pages.append(prevBtn);
+
+    const first = document.createElement('button');
+    first.textContent = '1';
+    first.classList.add('page');
+    first.id = 'first';
+    first.disable = currentPage === 1;
+    pages.append(first);
+
+    const dots = document.createElement('div');
+    dots.textContent = '...';
+    dots.classList.add('dots');
+    pages.append(dots);
+
+    const st1 = Math.max(currentPage - Math.floor(pagesToShow/2), 1);
+    const st2 = Math.max(currentPage - pagesToShow + 1, 1);
+    const st3 = Math.max(currentPage - pagesToShow + 2, 1);
+
+    let startPage;
+    currentPage === totalPages ? startPage = st2 
+    : currentPage === totalPages - 1 ? startPage = st3 : startPage = st1;
+
+    const endPage = Math.min(startPage + pagesToShow - 1, totalPages);
+    for(let i = startPage; i <= endPage; i++) {
+      const pageButton = document.createElement('button');
+      pageButton.classList.add('page');
+      pageButton.id = i;
+      pageButton.textContent = i;
+      pageButton.disable = i === currentPage;
+
+      i === currentPage ? pageButton.classList.add('activePage') : pageButton.classList.remove('activePage');
+      pages.append(pageButton);
+    };
+
+    const dots1 = document.createElement('div');
+    dots1.textContent = '...';
+    dots1.classList.add('dots');
+    pages.append(dots1);
+
+    const last = document.createElement('button');
+    last.textContent = totalPages;
+    last.classList.add('page');
+    last.id = 'last';
+    last.disable = currentPage === totalPages
+    pages.append(last);
+
+    const nextBtn = document.createElement('button');
+    nextBtn.textContent = '>';
+    nextBtn.classList.add('pagebtn');
+    nextBtn.id = 'next';
+    nextBtn.disabled = currentPage === totalPages;
+    pages.append(nextBtn);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
