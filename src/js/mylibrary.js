@@ -5,7 +5,7 @@ import renderFilms from './librarycard';
 const watched = document.querySelector('.watched');
 const queue = document.querySelector('.queue');
 const films = document.querySelector('.films');
-const itemsPerPage = 6;
+const itemsPerPage = 12;
 let currentPage = 1;
 
 
