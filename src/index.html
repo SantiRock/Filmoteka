@@ -1,14 +1,80 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Page title</title>
-    <link rel="stylesheet" href="./sass/index.scss" />
-    <script type="module" src="./index.js"></script>
-  </head>
-  <body>
-    <!-- ❗️❗️❗️ Add partials like so for every page -->
-    <include src="./partials/example.html"></include>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="description" content="Fimls, films and films">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.min.css" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Roboto:wght@400;500;700;900&display=swap"
+    rel="stylesheet">
+  <title>Filmoteka</title>
+</head>
+
+<body>
+  <header>
+    <div class="cover-container">
+      <div class="cover-container__home">
+        <a class='cover-container__brand' href="./index.html">
+          <svg class="cover-container__logo">
+            <use href="./images/symbol-defs.svg#icon-film">
+          </svg>
+          <h2 class="cover-container__title">Filmoteka</h2>
+        </a>
+        <nav class="nav-link">
+          <a href="./index.html" class="home__btn active">HOME</a>
+          <a href="./mylibrary.html" class="library__btn">MY LIBRARY</a>
+        </nav>
+      </div>
+
+      <div class="search-container">
+        <form>
+          <input class="search-container__input" type="text" id="search-input" placeholder="Movie search">
+          <button type="submit" class="search-button"><svg class="search-icon">
+              <use href="./images/symbol-defs.svg#icon-search">
+              </use>
+            </svg></button>
+        </form>
+      </div>
+      <p class="errormsn"></p>
+    </div>
+  </header>
+
+  <div class="films">
+    <ul></ul>
+  </div>
+
+  <div class="pages"></div>
+
+  <footer>
+    <div class="footer__rights">
+      <h3>© 2020 | All Rights Reserved | Developed with</h3>
+      <svg class="icon--footer">
+        <use href="./images/symbol-defs.svg#icon-icon-heart">
+        </use>
+      </svg>
+    </div>
+    <a href="#" id="open-modal">By GoIT Students</a>
+    <div id="modal-container">
+      <div id="modal">
+        <h2 class="modal-container__title">Equipo De Desarrollo</h2>
+        <ul class="modal-container__list">
+          <li>Conrado Hernán Villa</li>
+          <li>Angie Vargas</li>
+          <li>Santiago Quintero</li>
+          <li>Angélica González</li>
+        </ul>
+        <button id="close-modal">X</button>
+      </div>
+    </div>
+  </footer>
+  <script type="module" src="./js/index.js"></script>
+  <script type="module" src="./js/modal.js"></script>
+  <script type="module" src="./js/input.js"></script>
+  <script src="./js/modal-footer.js"></script>
+</body>
+
 </html>

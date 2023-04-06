@@ -1,0 +1,20 @@
+ $white: #fff;
+ $black: #000;
+ $orange: #FF6B08;
+ $grey: #818181;
+ $font-family: 'Roboto';
+ /*estilos generales*/
+
+ body {
+    font-family: "Roboto", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+  }
+
+ li { list-style: none; }
+
+ ul { padding: 0; }
+
+ a { text-decoration: none; }

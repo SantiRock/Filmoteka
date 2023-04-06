@@ -1,0 +1,171 @@
+// Home header ---------
+@import "./general";
+
+.cover-container {
+    background-image: linear-gradient(rgb(47, 48, 58, 0.4), rgba(47, 48, 58, 0.4)),
+       url(../images/cinema1.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 230px;
+    text-align: center;
+
+    &__home {
+        margin: auto;
+        padding-top: 43px;
+        padding-left: 20px;
+        padding-right: 20px;
+        display: flex;
+        justify-content: space-between;
+        min-width: 320px;
+        max-width: 1024;
+    }
+
+    &__brand {
+        display: flex;
+        align-items: center;
+        &:hover {
+            opacity: 0.7;
+            transition: opacity 0.2s ease-in-out;
+        }
+    }
+
+    &__logo {
+        height: 30px;
+        width: 24px;
+        margin-right: 10px;
+    }
+
+    &__title {
+        display: none;
+        color: $white;
+        margin: 0;
+    }
+}
+
+.nav-link {
+    display: flex;
+    align-items: end;
+}
+
+.home__btn, .library__btn {
+    color: $white;
+    text-transform: uppercase;
+    &:hover {
+        opacity: 0.7;
+        transition: opacity 0.2s ease-in-out;
+    }
+}
+
+.home__btn { margin-right: 39px; }
+
+.active {
+    color: $white;
+    border-bottom: 2.5px solid $orange;
+}
+
+// Search container
+
+.search-container {
+    margin-top: 38px;
+    text-align: center;
+
+    &__input {
+        width: 280px;
+        font-size: 14px;
+        font-weight: 400;
+        border: none;
+        border-bottom: 2px solid #ccc;
+        background-color: transparent;
+        outline: none;
+        color: $white;
+    }
+}
+
+::placeholder {
+    color: white;
+}
+
+/*estilos del btn search*/
+.search-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    opacity: 0.7;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.search-icon {
+    position: relative;
+    right: 24px;
+    width: 12px;
+    height: 12px;
+}
+
+//estilos responsive
+@media screen and (min-width: 560px) {
+    .cover-container__title {
+        display: block;
+        font-size: 30px;
+    }
+    .search-container__input {
+        width: 336px;
+    }
+}
+
+@media screen and (min-width: 764px) {
+    .cover-container__home {
+        padding-left: 75px;
+        padding-right: 75px;
+    }
+}
+
+.errormsn {
+    color: #FF0000;
+
+}
+
+// My Library header ----
+
+.cover-container2 {
+    background-image: linear-gradient(rgb(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+       url(../images/cinema2.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 230px;
+}
+
+
+.buttons {
+    text-align: center;
+    margin-top: 45px;
+}
+
+.watched {
+    margin-right: 20px;
+}
+
+.btn {
+    width: 130px;
+    height: 44px;
+    background-color: transparent;
+    border-radius: 5px;
+    border: 1px solid white;
+    color: white;
+}
+
+.btn:hover {
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.selected {
+    background-color: #FF6B08;
+    border: none;
+}
+
