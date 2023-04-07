@@ -1,6 +1,7 @@
 
 import debounce from "lodash/debounce";
-import render from "./index";
+import { genresArr, loadGenres } from "./genres";
+import { render, paginationH} from "./index";
 
 const apiKey = '0a3a4e00d84de20a8f1b6dfc8a7cdfd5';
 const searchInput = document.getElementById('search-input');
@@ -40,14 +41,16 @@ function searchMovies() {
     .catch(error => console.error(error));
 }
 
-searchInput.addEventListener('input',
+searchInput.addEventListener('keydown',
     debounce(() => {
+        currentPage = 1;
         word = searchInput.value.trim();
         if(word === '') {
             errorp.textContent = '';
             render();
+            paginationH();
         } else {
-            searchMovies()       
+            searchMovies()    
         }
     }, DEBOUNCE_DELAY)
 );
@@ -57,27 +60,44 @@ searchInput.addEventListener('input',
 function prerender (data) {
     moviesContainer.innerHTML = '';
     const moviesToDisplay = data.results.slice(0, moviesPerPage);
+
+    if (genresArr.length === 0) {
+        loadGenres().then(() => {
+          prerender(data);
+        });
+      }
+
     moviesToDisplay.forEach(movie => {
-        const movieElement = createMovieElement(movie);
+        const genreNames = movie.genre_ids;
+        const names = [];
+    
+        for (let i = 0; i < genreNames.length; i++) {
+          let genre = genresArr.find(g => g.id === genreNames[i]);
+          if (genre) {
+            names.push(genre.name);
+          } else { 
+            continue;
+          }
+        }
+        const gNames = names.join(', ');
+
+        const movieElement = document.createElement('div');
+        movieElement.classList.add('films__card');
+        let genres = movie.genre_ids.map(id => id).join(', ');
+        const year = movie.release_date.slice(0,4);
+        const rate = movie.vote_average.toFixed(1);
+        const posterPath = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` 
+        : 'https://via.placeholder.com/500x750?text=No+poster+available';
+
+        movieElement.innerHTML = `
+        <img src="${posterPath}" alt="${movie.title}" class="films__poster">
+        <p class="films__title">${movie.title}</p>
+        <p class='films__details'>${gNames} | ${year}</p>
+        <div class='films__rate'>${rate}</div>
+        `;
+
         moviesContainer.appendChild(movieElement);
     })
-}
-
-function createMovieElement(movie) {
-    const movieElement = document.createElement('div');
-    movieElement.classList.add('films__card');
-    let genres = movie.genre_ids.map(id => id).join(', ');
-    const year = movie.release_date.slice(0,4);
-    const rate = movie.vote_average.toFixed(1);
-    
-    const posterPath = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/500x750?text=No+poster+available';
-    movieElement.innerHTML = `
-    <img src="${posterPath}" alt="${movie.title}" class="films__poster">
-    <p class="films__title">${movie.title}</p>
-    <p class='films__details'>${genres} | ${year}</p>
-    <div class='films__rate'>${rate}</div>
-    `;
-    return movieElement;
 }
 
 // Pagination

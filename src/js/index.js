@@ -27,14 +27,13 @@ const render = () => {
 };
 
 render();
-export default render;
 
 // Paginación ----
 
 const pages = document.querySelector('.pages');
 const pagesToShow = 5;
 
-const pagination = () => {
+const paginationH = () => {
     pages.innerHTML = '';
 
     const prevBtn = document.createElement('button');
@@ -44,7 +43,7 @@ const pagination = () => {
     prevBtn.addEventListener('click', () => {
         currentPage--;
         render();
-        pagination();
+        paginationH();
     });
     pages.append(prevBtn);
 
@@ -55,7 +54,7 @@ const pagination = () => {
     first.addEventListener('click', () => {
       currentPage = 1;
       render();
-      pagination();
+      paginationH();
     });
     pages.append(first);
 
@@ -84,7 +83,7 @@ const pagination = () => {
       pageButton.addEventListener('click', () => {
         currentPage = i;
         render();
-        pagination();
+        paginationH();
       });
       pages.append(pageButton);
     };
@@ -101,7 +100,7 @@ const pagination = () => {
     last.addEventListener('click', () => {
       currentPage = totalPages;
       render();
-      pagination();
+      paginationH();
     });
     pages.append(last);
 
@@ -112,10 +111,12 @@ const pagination = () => {
     nextBtn.addEventListener('click', () => {
         currentPage++;
         render();
-        pagination();
+        paginationH();
     });
     pages.append(nextBtn);
 }
 
-pagination();
+paginationH();
+
+export { render, paginationH};
 
