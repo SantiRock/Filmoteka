@@ -3,30 +3,36 @@
 /* Estilos del footer */
 footer
 {
-    display: flex;
-    min-height: 77px;
-    background-color: #F7F7F7;
-    justify-content: center;
-    align-items: center;
+    padding-top: 28px;
+    padding-bottom: 30px;
+    text-align: center;
+    background-color: #F7F7F7; 
 }
 
 .footer__rights
 {
+    margin: 0;
     color: #545454;
-    display: flex;
-    align-items: center;
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 14px;
 }
 
-@media only screen and (max-width: 600px)
-{
-    .footer__rights
-    {
-        font-size: 14px;
-    }
+.footer__m {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Roboto';
+    font-style: normal;
+    color: #545454;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.dev {
+    margin: 0;
 }
 
 .icon--footer
@@ -35,6 +41,41 @@ footer
     height: 12.88px;
     margin: 0 10px;
 }
+
+.by {
+    margin: 0;
+}
+
+#open-modal
+{
+    color: #545454;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+@media screen and (min-width: 650px)
+{
+    footer {
+        padding-bottom: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+    }
+
+    .footer__rights {
+        margin-right: 4px;
+        width: max-content;
+        font-size: 16px;
+        
+    }
+
+    .footer__m {
+        font-size: 16px;
+        width: max-content;
+    }
+}
+
+
 
 /* Estilos de la ventana modal */
 #modal-container
@@ -50,12 +91,7 @@ footer
     align-items: center;
 }
 
-#open-modal
-{
-    color: #545454;
-    font-size: 16px;
-    cursor: pointer;
-}
+
 
 #modal
 {
@@ -70,7 +106,7 @@ footer
     text-align: center;
 }
 
-@media only screen and (max-width: 600px)
+@media screen and (max-width: 600px)
 {
     #modal
     {
@@ -114,7 +150,7 @@ footer
     font-size: 20px;
 }
 
-@media only screen and (max-width: 600px)
+@media screen and (max-width: 600px)
 {
     .modal-container__list
     {
