@@ -8,6 +8,10 @@
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.min.css"
   />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Roboto:wght@400;500;700;900&display=swap"
+    rel="stylesheet">
     <title>Filmoteka ML</title>
   </head>
   <body>
@@ -45,11 +49,31 @@
       <div class="pages"></div>
     </div>
 
-    
-
-
-    <footer></footer>
+  <footer>
+    <p class="footer__rights">©&nbsp;&nbsp;2020 | All Rights Reserved |</p>
+    <div class="footer__m">
+      <p class="dev">Developed with</p>
+      <svg class="icon--footer">
+        <use href="./images/symbol-defs.svg#icon-icon-heart"></use>
+      </svg>
+      <p class="by">by&nbsp;</p>
+      <a href="#" id="open-modal">GoIT Students</a>
+    </div>
+    <div id="modal-container">
+      <div id="modal">
+        <h2 class="modal-container__title">Equipo De Desarrollo</h2>
+        <ul class="modal-container__list">
+          <li>Conrado Hernán Villa</li>
+          <li>Angie Vargas</li>
+          <li>Santiago Quintero</li>
+          <li>Angélica González</li>
+        </ul>
+        <button id="close-modal">X</button>
+      </div>
+    </div>
+  </footer>
     <script type="module" src="./js/mylibrary.js"></script>
     <script type="module" src="./js/modal.js"></script>
+    <script src="./js/modal-footer.js"></script>
   </body>
 </html>
