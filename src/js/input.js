@@ -27,6 +27,7 @@ function searchMovies() {
     })
     .then(data => {
         if (data.total_results === 0) {
+            pages.innerHTML = '';
             errorp.textContent = 'Search result not successful. Enter the correct movie name and try again';
             moviesContainer.innerHTML = '';
         } else {
