@@ -60,6 +60,8 @@
 .home__btn { margin-right: 39px; }
 
 .active {
+    position: relative;
+    top: 2.5px;
     color: $white;
     border-bottom: 2.5px solid $orange;
 }
