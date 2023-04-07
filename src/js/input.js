@@ -5,6 +5,7 @@ import { render, paginationH} from "./index";
 
 const apiKey = '0a3a4e00d84de20a8f1b6dfc8a7cdfd5';
 const searchInput = document.getElementById('search-input');
+const searchBtn = document.querySelector('.search-button')
 const errorp = document.querySelector('.errormsn');
 const moviesContainer = document.querySelector('.films');
 const pages = document.querySelector('.pages');
@@ -185,21 +186,8 @@ const pagination = () => {
     pages.append(nextBtn);
 }
 
+//----
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+searchBtn.addEventListener('click', event => {
+    event.preventDefault();
+})
