@@ -1,7 +1,7 @@
 {
   "name": "parcel-project-template",
   "version": "2.0.0",
-  "description": "Java Band",
+  "description": "",
   "homepage": "https://santirock.github.io/goit-javaband-jsproject",
   "scripts": {
     "start": "parcel src/*.html",
@@ -19,16 +19,13 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "modern-normalize": "^1.1.0",
-    "notiflix": "^3.2.6",
-    "spin.js": "^4.1.1"
+    "modern-normalize": "^1.1.0"
   },
   "devDependencies": {
-    "@parcel/transformer-sass": "^2.8.3",
-    "parcel": "^2.8.3",
+    "@parcel/transformer-sass": "^2.6.0",
+    "parcel": "^2.6.0",
     "parcel-reporter-clean-dist": "^1.0.4",
     "posthtml-include": "^1.7.4"
   },
-  "browserslist": "> 0.5%, last 2 versions, not dead",
-  "main": "index.js"
+  "browserslist": "> 0.5%, last 2 versions, not dead"
 }
