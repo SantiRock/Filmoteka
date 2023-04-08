@@ -1,0 +1,35 @@
+.spinner
+{
+    border: 16px solid #38221857;
+    border-top: 16px solid  rgba(255,107,8, 0.65);
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    background-color: rgba(80,30,2, 0.3);
+    animation: spin 0.4s linear infinite;
+    margin: 0 auto;
+    margin-top: 50px; 
+    box-shadow: rgba(255,180,130, 0.3) 0px 0px 4px 1px;
+    /* ocultar el spinner inicialmente */
+}
+
+@keyframes spin
+{
+    0%
+    {
+        transform: rotate(0deg);
+    }
+
+    100%
+    {
+        transform: rotate(360deg);
+    }
+}
+
+.screen {
+    position: fixed;
+    width: 100vw;
+    height: 100vw;
+    background-color: rgba(7,3,0, 0.5);
+    display: none;
+}

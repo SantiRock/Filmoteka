@@ -37,7 +37,7 @@ const paginationH = () => {
     pages.innerHTML = '';
 
     const prevBtn = document.createElement('button');
-    prevBtn.textContent = '<';
+    prevBtn.textContent = '←';
     prevBtn.classList.add('pagebtn');
     prevBtn.disabled = currentPage === 1;
     prevBtn.addEventListener('click', () => {
@@ -105,7 +105,7 @@ const paginationH = () => {
     pages.append(last);
 
     const nextBtn = document.createElement('button');
-    nextBtn.textContent = '>';
+    nextBtn.textContent = '→';
     nextBtn.classList.add('pagebtn');
     nextBtn.disabled = currentPage === totalPages;
     nextBtn.addEventListener('click', () => {

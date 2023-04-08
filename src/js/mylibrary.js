@@ -73,7 +73,7 @@ const pagination = (arr, totalPages, currentPage) => {
     pages.innerHTML = '';
 
     const prevBtn = document.createElement('button');
-    prevBtn.textContent = '<';
+    prevBtn.textContent = '←';
     //prevBtn.innerHTML = markup;
     prevBtn.classList.add('pagebtn');
     prevBtn.disabled = currentPage === 1;
@@ -142,7 +142,7 @@ const pagination = (arr, totalPages, currentPage) => {
     pages.append(last);
 
     const nextBtn = document.createElement('button');
-    nextBtn.textContent = '>';
+    nextBtn.textContent = '→';
     nextBtn.classList.add('pagebtn');
     nextBtn.disabled = currentPage === totalPages;
     nextBtn.addEventListener('click', () => {

@@ -1,7 +1,6 @@
-
 import debounce from "lodash/debounce";
 import { genresArr, loadGenres } from "./genres";
-import { render, paginationH} from "./index";
+import { render, paginationH } from "./index";
 
 const apiKey = '0a3a4e00d84de20a8f1b6dfc8a7cdfd5';
 const searchInput = document.getElementById('search-input');
@@ -16,79 +15,101 @@ let currentPage = 1;
 let totalPages = 50;
 const pagesToShow = 5;
 const moviesPerPage = 12;
-
+const screen = document.querySelector('.screen');
+const spinner = document.querySelector('.spinner');
 
 // Fetch ------
 function searchMovies() {
+    screen.style.display = 'block'; // mostrar el spinner 
     return fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${word}&page=${currentPage}`)
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error(response.status);
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.total_results === 0) {
-            pages.innerHTML = '';
-            errorp.textContent = 'Search result not successful. Enter the correct movie name and try again';
-            moviesContainer.innerHTML = '';
-        } else {
-            totalPages = data.total_pages;
-            errorp.textContent = '';
-            prerender(data);
-            pagination();
-        }
-    })
-    .catch(error => console.error(error));
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.total_results === 0) {
+                pages.innerHTML = '';
+                errorp.textContent = 'Search result not successful. Enter the correct movie name and try again';
+                moviesContainer.innerHTML = '';
+            } else {
+                totalPages = data.total_pages;
+                errorp.textContent = '';
+                prerender(data);
+                pagination();
+            }
+        })
+        .catch(error => console.error(error))
+        .finally(() => {
+            setTimeout(() => {
+                screen.style.display = 'none'; // ocultar el spinner después de 1 segundo
+            }, 200); // ocultar el spinner después de recibir la respuesta
+        });
 }
+
+/*
+searchInput.addEventListener('keydown', () => {
+    spinner.style.display = 'block';
+})*/
+
 
 searchInput.addEventListener('keydown',
     debounce(() => {
+        screen.style.display = 'block'; // mostrar el spinner antes de hacer la solicitud
+        spinner.style.backgroundColor = 'rgba(30,10,2, 0.05)';
         currentPage = 1;
         word = searchInput.value.trim();
-        if(word === '') {
+
+        if (word === '') {
             errorp.textContent = '';
             render();
             paginationH();
+            
         } else {
-            searchMovies()    
+            searchMovies();  
         }
+    
+        setTimeout(() => {
+            screen.style.display = 'none'; // ocultar el spinner después de 1 segundo
+        }, 200);
     }, DEBOUNCE_DELAY)
 );
 
+
 // Función que crea un elemento de película
 
-function prerender (data) {
+function prerender(data) {
     moviesContainer.innerHTML = '';
     const moviesToDisplay = data.results.slice(0, moviesPerPage);
 
     if (genresArr.length === 0) {
         loadGenres().then(() => {
-          prerender(data);
+            prerender(data);
         });
-      }
+    }
 
     moviesToDisplay.forEach(movie => {
         const genreNames = movie.genre_ids;
         const names = [];
-    
+
         for (let i = 0; i < genreNames.length; i++) {
-          let genre = genresArr.find(g => g.id === genreNames[i]);
-          if (genre) {
-            names.push(genre.name);
-          } else { 
-            continue;
-          }
+            let genre = genresArr.find(g => g.id === genreNames[i]);
+            if (genre) {
+                names.push(genre.name);
+            } else {
+                continue;
+            }
         }
         const gNames = names.join(', ');
 
         const movieElement = document.createElement('div');
         movieElement.classList.add('films__card');
         let genres = movie.genre_ids.map(id => id).join(', ');
-        const year = movie.release_date.slice(0,4);
+        const year = movie.release_date.slice(0, 4);
         const rate = movie.vote_average.toFixed(1);
-        const posterPath = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` 
-        : 'https://via.placeholder.com/500x750?text=No+poster+available';
+        const posterPath = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+            : 'https://via.placeholder.com/500x750?text=No+poster+available';
 
         movieElement.innerHTML = `
         <img src="${posterPath}" alt="${movie.title}" class="films__poster">
@@ -128,7 +149,7 @@ const pagination = () => {
     pages.innerHTML = '';
 
     const prevBtn = document.createElement('button');
-    prevBtn.textContent = '<';
+    prevBtn.textContent = '←';
     prevBtn.classList.add('pagebtn');
     prevBtn.id = 'prev';
     prevBtn.disabled = currentPage === 1;
@@ -145,25 +166,24 @@ const pagination = () => {
     dots.textContent = '...';
     dots.classList.add('dots');
     pages.append(dots);
-
-    const st1 = Math.max(currentPage - Math.floor(pagesToShow/2), 1);
+    const st1 = Math.max(currentPage - Math.floor(pagesToShow / 2), 1);
     const st2 = Math.max(currentPage - pagesToShow + 1, 1);
     const st3 = Math.max(currentPage - pagesToShow + 2, 1);
 
     let startPage;
-    currentPage === totalPages ? startPage = st2 
-    : currentPage === totalPages - 1 ? startPage = st3 : startPage = st1;
+    currentPage === totalPages ? startPage = st2
+        : currentPage === totalPages - 1 ? startPage = st3 : startPage = st1;
 
     const endPage = Math.min(startPage + pagesToShow - 1, totalPages);
-    for(let i = startPage; i <= endPage; i++) {
-      const pageButton = document.createElement('button');
-      pageButton.classList.add('page');
-      pageButton.id = i;
-      pageButton.textContent = i;
-      pageButton.disable = i === currentPage;
+    for (let i = startPage; i <= endPage; i++) {
+        const pageButton = document.createElement('button');
+        pageButton.classList.add('page');
+        pageButton.id = i;
+        pageButton.textContent = i;
+        pageButton.disable = i === currentPage;
 
-      i === currentPage ? pageButton.classList.add('activePage') : pageButton.classList.remove('activePage');
-      pages.append(pageButton);
+        i === currentPage ? pageButton.classList.add('activePage') : pageButton.classList.remove('activePage');
+        pages.append(pageButton);
     };
 
     const dots1 = document.createElement('div');
@@ -179,7 +199,7 @@ const pagination = () => {
     pages.append(last);
 
     const nextBtn = document.createElement('button');
-    nextBtn.textContent = '>';
+    nextBtn.textContent = '→';
     nextBtn.classList.add('pagebtn');
     nextBtn.id = 'next';
     nextBtn.disabled = currentPage === totalPages;
