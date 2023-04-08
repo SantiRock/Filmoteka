@@ -15,12 +15,12 @@ let currentPage = 1;
 let totalPages = 50;
 const pagesToShow = 5;
 const moviesPerPage = 12;
-
+const screen = document.querySelector('.screen');
 const spinner = document.querySelector('.spinner');
 
 // Fetch ------
 function searchMovies() {
-    spinner.style.display = 'block'; // mostrar el spinner 
+    screen.style.display = 'block'; // mostrar el spinner 
     return fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${word}&page=${currentPage}`)
         .then((response) => {
             if (!response.ok) {
@@ -42,27 +42,40 @@ function searchMovies() {
         })
         .catch(error => console.error(error))
         .finally(() => {
-            spinner.style.display = 'none'; // ocultar el spinner después de recibir la respuesta
+            setTimeout(() => {
+                screen.style.display = 'none'; // ocultar el spinner después de 1 segundo
+            }, 200); // ocultar el spinner después de recibir la respuesta
         });
 }
 
+/*
+searchInput.addEventListener('keydown', () => {
+    spinner.style.display = 'block';
+})*/
+
+
 searchInput.addEventListener('keydown',
     debounce(() => {
-        spinner.style.display = 'block'; // mostrar el spinner antes de hacer la solicitud
+        screen.style.display = 'block'; // mostrar el spinner antes de hacer la solicitud
+        spinner.style.backgroundColor = 'rgba(30,10,2, 0.05)';
         currentPage = 1;
         word = searchInput.value.trim();
+
         if (word === '') {
             errorp.textContent = '';
             render();
             paginationH();
+            
         } else {
-            searchMovies();
-            setTimeout(() => {
-                spinner.style.display = 'none'; // ocultar el spinner después de 1 segundo
-            }, 1000);
+            searchMovies();  
         }
+    
+        setTimeout(() => {
+            screen.style.display = 'none'; // ocultar el spinner después de 1 segundo
+        }, 200);
     }, DEBOUNCE_DELAY)
 );
+
 
 // Función que crea un elemento de película
 
@@ -136,7 +149,7 @@ const pagination = () => {
     pages.innerHTML = '';
 
     const prevBtn = document.createElement('button');
-    prevBtn.textContent = '<';
+    prevBtn.textContent = '←';
     prevBtn.classList.add('pagebtn');
     prevBtn.id = 'prev';
     prevBtn.disabled = currentPage === 1;
@@ -153,7 +166,6 @@ const pagination = () => {
     dots.textContent = '...';
     dots.classList.add('dots');
     pages.append(dots);
-
     const st1 = Math.max(currentPage - Math.floor(pagesToShow / 2), 1);
     const st2 = Math.max(currentPage - pagesToShow + 1, 1);
     const st3 = Math.max(currentPage - pagesToShow + 2, 1);
@@ -187,7 +199,7 @@ const pagination = () => {
     pages.append(last);
 
     const nextBtn = document.createElement('button');
-    nextBtn.textContent = '>';
+    nextBtn.textContent = '→';
     nextBtn.classList.add('pagebtn');
     nextBtn.id = 'next';
     nextBtn.disabled = currentPage === totalPages;
