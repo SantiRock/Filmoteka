@@ -1,5 +1,6 @@
 import debounce from "lodash/debounce";
 import { genresArr, loadGenres } from "./genres";
+import displayMovieDetails from './modal';
 import { render, paginationH } from "./index";
 
 const apiKey = '0a3a4e00d84de20a8f1b6dfc8a7cdfd5';
@@ -8,6 +9,7 @@ const searchBtn = document.querySelector('.search-button')
 const errorp = document.querySelector('.errormsn');
 const moviesContainer = document.querySelector('.films');
 const pages = document.querySelector('.pages');
+const error = document.querySelector('.erroc');
 const DEBOUNCE_DELAY = 300;
 
 let word = '';
@@ -16,11 +18,10 @@ let totalPages = 50;
 const pagesToShow = 5;
 const moviesPerPage = 12;
 const screen = document.querySelector('.screen');
-const spinner = document.querySelector('.spinner');
 
 // Fetch ------
 function searchMovies() {
-    screen.style.display = 'block'; // mostrar el spinner 
+    screen.style.display = 'flex'; // mostrar el spinner 
     return fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${word}&page=${currentPage}`)
         .then((response) => {
             if (!response.ok) {
@@ -33,46 +34,35 @@ function searchMovies() {
                 pages.innerHTML = '';
                 errorp.textContent = 'Search result not successful. Enter the correct movie name and try again';
                 moviesContainer.innerHTML = '';
+                error.style.display = 'block';
             } else {
                 totalPages = data.total_pages;
                 errorp.textContent = '';
+                error.style.display = 'none';
                 prerender(data);
                 pagination();
             }
         })
         .catch(error => console.error(error))
-        .finally(() => {
-            setTimeout(() => {
-                screen.style.display = 'none'; // ocultar el spinner después de 1 segundo
-            }, 200); // ocultar el spinner después de recibir la respuesta
-        });
+        .finally(() => screen.style.display = 'none');
 }
-
-/*
-searchInput.addEventListener('keydown', () => {
-    spinner.style.display = 'block';
-})*/
 
 
 searchInput.addEventListener('keydown',
     debounce(() => {
-        screen.style.display = 'block'; // mostrar el spinner antes de hacer la solicitud
-        spinner.style.backgroundColor = 'rgba(30,10,2, 0.05)';
         currentPage = 1;
         word = searchInput.value.trim();
 
         if (word === '') {
             errorp.textContent = '';
+            error.style.display = 'none';
+            currentPage = 1;
             render();
             paginationH();
             
         } else {
             searchMovies();  
         }
-    
-        setTimeout(() => {
-            screen.style.display = 'none'; // ocultar el spinner después de 1 segundo
-        }, 200);
     }, DEBOUNCE_DELAY)
 );
 
@@ -117,8 +107,10 @@ function prerender(data) {
         <p class='films__details'>${gNames} | ${year}</p>
         <div class='films__rate'>${rate}</div>
         `;
-
         moviesContainer.appendChild(movieElement);
+        movieElement.addEventListener("click", () => {
+            displayMovieDetails(movie);
+        })
     })
 }
 
@@ -159,7 +151,7 @@ const pagination = () => {
     first.textContent = '1';
     first.classList.add('page');
     first.id = 'first';
-    first.disable = currentPage === 1;
+    first.disabled = currentPage === 1;
     pages.append(first);
 
     const dots = document.createElement('div');
@@ -180,7 +172,7 @@ const pagination = () => {
         pageButton.classList.add('page');
         pageButton.id = i;
         pageButton.textContent = i;
-        pageButton.disable = i === currentPage;
+        pageButton.disabled = i === currentPage;
 
         i === currentPage ? pageButton.classList.add('activePage') : pageButton.classList.remove('activePage');
         pages.append(pageButton);
@@ -195,7 +187,7 @@ const pagination = () => {
     last.textContent = totalPages;
     last.classList.add('page');
     last.id = 'last';
-    last.disable = currentPage === totalPages
+    last.disabled = currentPage === totalPages
     pages.append(last);
 
     const nextBtn = document.createElement('button');

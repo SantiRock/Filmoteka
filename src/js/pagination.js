@@ -1,54 +1,19 @@
-import makeMoviesPosters from './homecard.js';
-import '../sass/index.scss';
-console.log(localStorage);
-
-// Variables ----
-const media_type = 'all';
-const time_window = 'week';
-let currentPage = 1;
-let totalPages = 50;
-const screen = document.querySelector('.screen');
-
-// Fetch & Render ----
-function uploadMovies() {
-  screen.style.display = 'flex';
-  return fetch(
-    `https://api.themoviedb.org/3/trending/${media_type}/${time_window}?api_key=0a3a4e00d84de20a8f1b6dfc8a7cdfd5&per_page=18&page=${currentPage}`
-  ).then(response => {
-    if (!response.ok) {
-      screen.style.display = 'none';
-      throw new Error(response.status);
-    }
-    return response.json();
-  })
-  .finally(() => screen.style.display = 'none')
-}
-
-const render = () => {
-  uploadMovies().then(trendingMovies => {
-    //totalPages = trendingMovies.total_pages;
-    return makeMoviesPosters(trendingMovies);
-  });
-};
-
-render();
-
-// Paginación ----
-
 const pages = document.querySelector('.pages');
 const pagesToShow = 5;
 
-const paginationH = () => {
+
+const pagination = (arr, totalPages, currentPage) => {
     pages.innerHTML = '';
 
     const prevBtn = document.createElement('button');
     prevBtn.textContent = '←';
+    //prevBtn.innerHTML = markup;
     prevBtn.classList.add('pagebtn');
     prevBtn.disabled = currentPage === 1;
     prevBtn.addEventListener('click', () => {
         currentPage--;
-        render();
-        paginationH();
+        getLocalStorage(arr, currentPage);
+        pagination(arr, totalPages, currentPage);
     });
     pages.append(prevBtn);
 
@@ -57,9 +22,9 @@ const paginationH = () => {
     first.classList.add('page');
     first.disabled = currentPage === 1;
     first.addEventListener('click', () => {
-      currentPage = 1;
-      render();
-      paginationH();
+        currentPage = 1;
+        getLocalStorage(arr, currentPage);
+        pagination(arr, totalPages, currentPage);
     });
     pages.append(first);
 
@@ -75,7 +40,7 @@ const paginationH = () => {
     let startPage;
     currentPage === totalPages ? startPage = st2 
     : currentPage === totalPages - 1 ? startPage = st3 : startPage = st1;
-
+    
     const endPage = Math.min(startPage + pagesToShow - 1, totalPages);
     for(let i = startPage; i <= endPage; i++) {
       const pageButton = document.createElement('button');
@@ -87,8 +52,8 @@ const paginationH = () => {
 
       pageButton.addEventListener('click', () => {
         currentPage = i;
-        render();
-        paginationH();
+        getLocalStorage(arr, currentPage);
+        pagination(arr, totalPages, currentPage);
       });
       pages.append(pageButton);
     };
@@ -103,9 +68,9 @@ const paginationH = () => {
     last.classList.add('page');
     last.disabled = currentPage === totalPages
     last.addEventListener('click', () => {
-      currentPage = totalPages;
-      render();
-      paginationH();
+        currentPage = totalPages;
+        getLocalStorage(arr, currentPage);
+        pagination(arr, totalPages, currentPage);
     });
     pages.append(last);
 
@@ -115,13 +80,10 @@ const paginationH = () => {
     nextBtn.disabled = currentPage === totalPages;
     nextBtn.addEventListener('click', () => {
         currentPage++;
-        render();
-        paginationH();
+        getLocalStorage(arr, currentPage);
+        pagination(arr, totalPages, currentPage);
     });
     pages.append(nextBtn);
 }
 
-paginationH();
-
-export { render, paginationH};
-
+export default pagination;

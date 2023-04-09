@@ -1,3 +1,143 @@
+.modalw {
+  display: none;
+  position: fixed;
+  top:0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: rgba(0,0,0,0.8);
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  transition: opacity 1000ms ease-in-out; 
+}
 
+.modal-content {
+    position: relative;
+    gap:20px;
+    margin-left:20px;
+    margin-right: 20px;     
+    background-color: #fff;
+    padding: 0 20px;
+    min-width: 280px;
+    max-width: 800px;
+   
+}
+  
+.modal-close {
+    margin: 10px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 30px;
+    color: #333;
+    height: 16px;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+}
 
+.poster_container {
+    text-align: center;
+}
 
+.modal-poster {
+    margin: auto;
+    margin-top: 48px;
+    max-width: 100%;
+    height: 356px;
+}
+  
+.modal-title {    
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+table {
+    text-align: left;
+    font-family: 'Roboto';  
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.about {
+    line-height: 20px;
+}
+  
+.t1 {
+    padding-right: 39px;
+    padding-bottom: 10px;
+    color: rgba(140, 140, 140, 1);
+}
+
+.modal-btns {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 21px;
+    margin-bottom: 41px;
+}
+
+.addw {
+    width: 112px;
+    height: 44px;
+    border-radius: 5px;
+    background-color: #FF6B01;
+    color: white;
+    border: none;
+}
+
+.addq {
+    width: 112px;
+    height: 44px;
+    border-radius: 5px;
+    background-color: white;
+}
+
+@media screen and (min-width: 658px) {
+    .modal-content {
+        display: flex;
+        justify-content: center;
+        height: 560px;
+    }
+
+    .poster_container {
+        margin-top: 42px;
+        margin-bottom: 41px;
+        width: calc(50% - 16px);
+        height: min-content;
+        
+    }
+
+    .modal-poster{
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .info {
+        margin-top: 42px;
+        width: calc(50% - 16px);
+
+    }
+
+    .modal-title {
+        margin-top: 0;
+    } 
+}
+
+@media screen and (min-width: 766px) {
+    .modal-content {
+        margin-left: 75px;
+        margin-right: 75px;
+    } 
+}
+
+@media screen and (min-width: 900px) {
+    .poster_container {
+        height: calc(100% - 80px);
+    }
+}
