@@ -1,6 +1,8 @@
 const openModalBtn = document.getElementById('open-modal');
 const closeModalBtn = document.getElementById('close-modal');
 const modalContainer = document.getElementById('modal-container');
+const cleanstorage = document.querySelector('.cleanls')
+
 
 function openModal() {
     modalContainer.style.display = 'flex';
@@ -23,3 +25,9 @@ modalContainer.addEventListener('click', (event) => {
         closeModal();
     }
 });
+
+cleanstorage.addEventListener('click', (event) => {
+    //event.preventDefault();
+    localStorage.clear();
+    console.log(localStorage);
+})

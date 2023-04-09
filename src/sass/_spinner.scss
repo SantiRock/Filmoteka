@@ -6,6 +6,7 @@
     width: 120px;
     height: 120px;
     background-color: rgba(80,30,2, 0.3);
+    //background-color: rgba(30,10,2, 0.05);
     animation: spin 0.4s linear infinite;
     margin: 0 auto;
     margin-top: 50px; 
@@ -28,8 +29,12 @@
 
 .screen {
     position: fixed;
+    align-items: center;
+    justify-content: center;
+    top:0;
+    right:0;
     width: 100vw;
-    height: 100vw;
+    height: 100vh;
     background-color: rgba(7,3,0, 0.5);
     display: none;
 }

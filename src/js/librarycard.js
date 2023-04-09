@@ -1,3 +1,5 @@
+import displayMovieDetails from './modal-library';
+
 const films = document.querySelector('.films');
 
 function renderFilms(film) {
@@ -12,17 +14,20 @@ function renderFilms(film) {
     let genres = film.genres.map(genre => genre.name).join(', ');
 
     const card = document.createElement('div');
-    //card.classList.add('card');
-    films.append(card);
-
+    card.classList.add('films__card');
+   
     let markup = `
     <img class='films__poster' src=${posterPath} alt=${title} loading='lazy' class='poster'>
     <p class='films__title'>${title}</p>
     <p class='films__details'>${genres} | ${year}</p>
     <div class='films__rate'>${rate}</div>
     `;
+    card.innerHTML = markup;
 
-    card.innerHTML = markup;     
+    films.appendChild(card);
+    card.addEventListener("click", () => {
+        displayMovieDetails(film);
+    })
 };
 
 export default renderFilms;
