@@ -1,2 +1,0 @@
-var openModalBtn=document.getElementById("open-modal"),closeModalBtn=document.getElementById("close-modal"),modalContainer=document.getElementById("modal-container");function openModal(){modalContainer.style.display="flex"}function closeModal(){modalContainer.style.display="none"}openModalBtn.addEventListener("click",(function(){openModal()})),closeModalBtn.addEventListener("click",(function(){closeModal()})),modalContainer.addEventListener("click",(function(n){n.target===modalContainer&&closeModal()}));
-//# sourceMappingURL=mylibrary.311d954d.js.map
