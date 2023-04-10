@@ -84,8 +84,15 @@ function displayMovieDetails(movie) {
       wls.push(movie.id);
       localStorage.setItem('watched', JSON.stringify(watchedLocalStorage));
       watchButton.style.backgroundColor = 'rgba(255, 107, 1, 0.5)'
+      watchButton.style.cursor = 'default';
+      queueButton.style.cursor = 'default';
       watchButton.disabled = wls.includes(movie.id);
       queueButton.disabled = qls.includes(movie.id) || wls.includes(movie.id);
+      if (qls.includes(movie.id)) {
+        const i = qls.indexOf(movie.id);
+        qls.splice(i, 1);
+        localStorage.setItem('queue', JSON.stringify(queueLocalStorage));
+      }
       console.log(localStorage);
     });
 
@@ -95,7 +102,8 @@ function displayMovieDetails(movie) {
     queueButton.addEventListener("click", () => {
       qls.push(movie.id)
       localStorage.setItem('queue', JSON.stringify(queueLocalStorage));
-      queueButton.disabled = qls.includes(movie.id) || wls.includes(movie.id);
+      queueButton.style.cursor = 'default';
+      queueButton.disabled = qls.includes(movie.id);
       console.log(localStorage)
     });
   

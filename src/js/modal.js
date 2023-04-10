@@ -1,5 +1,5 @@
 import { watchedLocalStorage, queueLocalStorage } from "./localstorage";
-import { genresArr, loadGenres } from "./genres";
+import { genresArr } from "./genres";
 
 
 function displayMovieDetails(movie) {
@@ -85,11 +85,14 @@ function displayMovieDetails(movie) {
     if (wls.includes(movie.id)) {
       watchButton.style.backgroundColor = 'rgba(255, 107, 1, 0.5)'
     };
-
+/*
     if (qls.includes(movie.id)) {
-      //console.log('yes');
-      //console.log(qls.findIndex(movie.id));
-    }
+      console.log('yes');
+      console.log(movie.id);
+      console.log(qls);
+      console.log(qls.length);
+      console.log(qls.indexOf(movie.id));
+    }*/
     
     watchButton.disabled = wls.includes(movie.id);
     watchButton.addEventListener("click", () => {
@@ -98,6 +101,13 @@ function displayMovieDetails(movie) {
       watchButton.style.backgroundColor = 'rgba(255, 107, 1, 0.5)'
       watchButton.disabled = wls.includes(movie.id);
       queueButton.disabled = qls.includes(movie.id) || wls.includes(movie.id);
+      if (qls.includes(movie.id)) {
+        const i = qls.indexOf(movie.id);
+        qls.splice(i, 1);
+        localStorage.setItem('queue', JSON.stringify(queueLocalStorage));
+      }
+      watchButton.style.cursor = 'default';
+      queueButton.style.cursor = 'default';
       console.log(localStorage);
     });
 
@@ -108,6 +118,7 @@ function displayMovieDetails(movie) {
       qls.push(movie.id)
       localStorage.setItem('queue', JSON.stringify(queueLocalStorage));
       queueButton.disabled = qls.includes(movie.id) || wls.includes(movie.id);
+      queueButton.style.cursor = 'default';
       console.log(localStorage)
     });
   
