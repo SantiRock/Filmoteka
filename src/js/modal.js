@@ -3,7 +3,9 @@ import { watchedLocalStorage, queueLocalStorage } from "./localstorage";
 
 function displayMovieDetails(movie) {
   const modal = document.querySelector(".modalw");
-  const title = movie.title.toUpperCase();
+  const title = movie.title;
+  (console.log(title));
+  //const title = movie.title.toUpperCase();
   const popularity = movie.popularity.toFixed(1);
   const rate = movie.vote_average.toFixed(1);
     
@@ -63,14 +65,14 @@ function displayMovieDetails(movie) {
     const qls = queueLocalStorage.queueId;
   
     const watchButton = modalContentWrapper.querySelector(".addw");
-    console.log(wls.includes(movie.id));
+    //console.log(wls.includes(movie.id));
 
     if (wls.includes(movie.id)) {
       watchButton.style.backgroundColor = 'rgba(255, 107, 1, 0.5)'
     };
 
     if (qls.includes(movie.id)) {
-      console.log('yes');
+      //console.log('yes');
       //console.log(qls.findIndex(movie.id));
     }
     
