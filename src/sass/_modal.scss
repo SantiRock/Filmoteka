@@ -87,6 +87,7 @@ table {
     background-color: #FF6B01;
     color: white;
     border: none;
+    cursor: pointer;
 }
 
 .addq {
@@ -94,13 +95,14 @@ table {
     height: 44px;
     border-radius: 5px;
     background-color: white;
+    cursor: pointer;
 }
 
 @media screen and (min-width: 658px) {
     .modal-content {
         display: flex;
         justify-content: center;
-        height: 560px;
+        min-height: 560px;
     }
 
     .poster_container {
