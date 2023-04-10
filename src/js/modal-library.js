@@ -3,9 +3,11 @@ import { watchedLocalStorage, queueLocalStorage } from "./localstorage";
 
 function displayMovieDetails(movie) {
   const modal = document.querySelector(".modalw");
-  const title = movie.title;
-  (console.log(title));
-  //const title = movie.title.toUpperCase();
+  const title1 = movie.title || movie.name;
+  const title = title1.toUpperCase();
+  const orgtitle1 = movie.original_title || movie.name;
+  const orgtitle = orgtitle1.toUpperCase();
+  //const orgtitle = 'hello'; 
   const popularity = movie.popularity.toFixed(1);
   const rate = movie.vote_average.toFixed(1);
   const genres = movie.genres.map(genre => genre.name).join(', ');
@@ -34,7 +36,7 @@ function displayMovieDetails(movie) {
           </tr>
           <tr>
             <th class='t1'>Original Title</th>
-            <th>${movie.original_title}</th>
+            <th>${orgtitle}</th>
           </tr>
           <tr>
             <th class='t1'>Genre</th>
