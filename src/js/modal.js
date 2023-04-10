@@ -1,13 +1,28 @@
 import { watchedLocalStorage, queueLocalStorage } from "./localstorage";
+import { genresArr, loadGenres } from "./genres";
 
 
 function displayMovieDetails(movie) {
   const modal = document.querySelector(".modalw");
-  const title = movie.title;
-  (console.log(title));
-  //const title = movie.title.toUpperCase();
+  const title1 = movie.title || movie.name;
+  const title = title1.toUpperCase();
+  const orgtitle1 = movie.original_title || movie.name;
+  const orgtitle = orgtitle1.toUpperCase();
   const popularity = movie.popularity.toFixed(1);
   const rate = movie.vote_average.toFixed(1);
+
+  const genreNames = movie.genre_ids;
+      const names = [];
+  
+      for (let i = 0; i < genreNames.length; i++) {
+        let genre = genresArr.find(g => g.id === genreNames[i]);
+        if (genre) {
+          names.push(genre.name);
+        } else { 
+          continue;
+        }
+      }
+      const gNames = names.join(', ');
     
     const modalContent = `
       <div class="modal-header">
@@ -17,7 +32,7 @@ function displayMovieDetails(movie) {
       <div class='poster_container'>
         <img class="modal-poster" src="https://image.tmdb.org/t/p/w500${
           movie.poster_path
-        }" alt="${movie.title}">
+        }" alt="${title}">
       </div>
       <div class='info'>
         <h3 class="modal-title">${title}</h3>
@@ -33,11 +48,11 @@ function displayMovieDetails(movie) {
           </tr>
           <tr>
             <th class='t1'>Original Title</th>
-            <th>${movie.original_title}</th>
+            <th>${orgtitle}</th>
           </tr>
           <tr>
             <th class='t1'>Genre</th>
-            <th>${getGenres(movie.genre_ids)}</th>
+            <th>${gNames}</th>
           </tr>
         </table>
           <p>ABOUT</p>
@@ -112,6 +127,8 @@ function displayMovieDetails(movie) {
     })
   }
 
+  export default displayMovieDetails;
+
 
   function getGenres(genreIds) {
     const genres = {
@@ -138,5 +155,5 @@ function displayMovieDetails(movie) {
     return genreIds.map((id) => genres[id]).join(", ");
   }
   
-  export default displayMovieDetails;
+
 
