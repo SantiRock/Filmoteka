@@ -68,17 +68,18 @@ function displayMovieDetails(movie) {
     const qls = queueLocalStorage.queueId;
   
     const watchButton = modalContentWrapper.querySelector(".addw");
-    //console.log(wls.includes(movie.id));
+    const queueButton = modalContentWrapper.querySelector(".addq");
 
     if (wls.includes(movie.id)) {
-      watchButton.style.backgroundColor = 'rgba(255, 107, 1, 0.5)'
+      watchButton.style.backgroundColor = 'rgba(255, 107, 1, 0.5)';
+      watchButton.style.cursor = 'default';
+      queueButton.style.cursor = 'default';
     };
 
     if (qls.includes(movie.id)) {
-      //console.log('yes');
-      //console.log(qls.findIndex(movie.id));
-    }
-    
+      queueButton.style.cursor = 'default';
+    };
+
     watchButton.disabled = wls.includes(movie.id);
     watchButton.addEventListener("click", () => {
       wls.push(movie.id);
@@ -93,10 +94,10 @@ function displayMovieDetails(movie) {
         qls.splice(i, 1);
         localStorage.setItem('queue', JSON.stringify(queueLocalStorage));
       }
+      window.location.reload()
       console.log(localStorage);
     });
 
-    const queueButton = modalContentWrapper.querySelector(".addq");
     
     queueButton.disabled = qls.includes(movie.id) || wls.includes(movie.id);
     queueButton.addEventListener("click", () => {

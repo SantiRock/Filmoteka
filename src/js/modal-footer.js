@@ -29,5 +29,6 @@ modalContainer.addEventListener('click', (event) => {
 cleanstorage.addEventListener('click', (event) => {
     //event.preventDefault();
     localStorage.clear();
+    window.location.reload();
     console.log(localStorage);
 })

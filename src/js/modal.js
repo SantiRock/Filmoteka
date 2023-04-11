@@ -87,12 +87,11 @@ function displayMovieDetails(movie) {
       watchButton.style.backgroundColor = 'rgba(255, 107, 1, 0.5)';
       watchButton.style.cursor = 'default';
       queueButton.style.cursor = 'default';
-
     };
 
     if (qls.includes(movie.id)) {
       queueButton.style.cursor = 'default';
-    }
+    };
     
     watchButton.disabled = wls.includes(movie.id);
     watchButton.addEventListener("click", () => {
