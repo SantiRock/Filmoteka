@@ -46,8 +46,8 @@ function displayMovieDetails(movie) {
           <p>ABOUT</p>
           <p class='about'>${movie.overview}</p>
           <div class="modal-btns">
-            <button class="addw">ADD TO WATCHED</button>
-            <button class="addq">ADD TO QUEUE</button>
+            <button class="btnmodal addw">ADD TO WATCHED</button>
+            <button class="btnmodal addq">ADD TO QUEUE</button>
         </div>
       </div>
     `;
@@ -71,42 +71,65 @@ function displayMovieDetails(movie) {
     const queueButton = modalContentWrapper.querySelector(".addq");
 
     if (wls.includes(movie.id)) {
-      watchButton.style.backgroundColor = 'rgba(255, 107, 1, 0.5)';
-      watchButton.style.cursor = 'default';
-      queueButton.style.cursor = 'default';
-    };
+      watchButton.classList.add('btnmodal2')
+      watchButton.classList.remove('btnmodal');
+      watchButton.textContent = 'REMOVE FROM WATCHED';
+      watchButton.addEventListener('click', () => {
+        const i = wls.indexOf(movie.id);
+        wls.splice(i, 1);
+        localStorage.setItem('watched', JSON.stringify(watchedLocalStorage));
+        watchButton.classList.add('btnmodal')
+        watchButton.classList.remove('btnmodal2');
+        watchButton.textContent = 'ADD TO WATCHED';
+        window.location.reload();
+        console.log(localStorage);
+      });} else {
+        watchButton.addEventListener("click", () => {
+          wls.push(movie.id);
+          localStorage.setItem('watched', JSON.stringify(watchedLocalStorage));
+          if (qls.includes(movie.id)) {
+            const i = qls.indexOf(movie.id);
+            qls.splice(i, 1);
+            localStorage.setItem('queue', JSON.stringify(queueLocalStorage));
+          }
+          watchButton.classList.add('btnmodal2')
+          watchButton.classList.remove('btnmodal');
+          watchButton.textContent = 'REMOVE FROM WATCHED'; 
+          window.location.reload();
+          console.log(localStorage);
+        });
+      };
 
     if (qls.includes(movie.id)) {
-      queueButton.style.cursor = 'default';
-    };
-
-    watchButton.disabled = wls.includes(movie.id);
-    watchButton.addEventListener("click", () => {
-      wls.push(movie.id);
-      localStorage.setItem('watched', JSON.stringify(watchedLocalStorage));
-      watchButton.style.backgroundColor = 'rgba(255, 107, 1, 0.5)'
-      watchButton.style.cursor = 'default';
-      queueButton.style.cursor = 'default';
-      watchButton.disabled = wls.includes(movie.id);
-      queueButton.disabled = qls.includes(movie.id) || wls.includes(movie.id);
-      if (qls.includes(movie.id)) {
+      queueButton.classList.add('btnmodal2')
+      queueButton.classList.remove('btnmodal');
+      queueButton.textContent = 'REMOVE FROM QUEUE';
+      queueButton.addEventListener('click', () => {
         const i = qls.indexOf(movie.id);
         qls.splice(i, 1);
         localStorage.setItem('queue', JSON.stringify(queueLocalStorage));
-      }
-      window.location.reload()
-      console.log(localStorage);
-    });
-
-    
-    queueButton.disabled = qls.includes(movie.id) || wls.includes(movie.id);
-    queueButton.addEventListener("click", () => {
-      qls.push(movie.id)
-      localStorage.setItem('queue', JSON.stringify(queueLocalStorage));
-      queueButton.style.cursor = 'default';
-      queueButton.disabled = qls.includes(movie.id);
-      console.log(localStorage)
-    });
+        queueButton.classList.add('btnmodal')
+        queueButton.classList.remove('btnmodal2');
+        queueButton.textContent = 'ADD TO QUEUE';
+        window.location.reload();
+        console.log(localStorage)
+      })} else {
+        queueButton.addEventListener("click", () => {
+          qls.push(movie.id)
+          localStorage.setItem('queue', JSON.stringify(queueLocalStorage));
+          queueButton.classList.add('btnmodal2')
+          queueButton.classList.remove('btnmodal');
+          queueButton.textContent = 'REMOVE FORM QUEUE';
+          if (wls.includes(movie.id)) {
+            const i = wls.indexOf(movie.id);
+            wls.splice(i, 1);
+            localStorage.setItem('watched', JSON.stringify(watchedLocalStorage))
+          }
+          window.location.reload();
+          console.log(localStorage)
+        })
+      };
+   
   
 
     document.addEventListener('keydown', event => {
