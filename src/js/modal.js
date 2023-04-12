@@ -94,7 +94,8 @@ function displayMovieDetails(movie) {
         watchButton.classList.add('btnmodal')
         watchButton.classList.remove('btnmodal2');
         watchButton.textContent = 'ADD TO WATCHED';
-        window.location.reload();
+        modal.style.display = 'none';
+        modalContentWrapper.remove();
         console.log(localStorage);
       });} else {
         watchButton.addEventListener("click", () => {
@@ -108,7 +109,8 @@ function displayMovieDetails(movie) {
           watchButton.classList.add('btnmodal2')
           watchButton.classList.remove('btnmodal');
           watchButton.textContent = 'REMOVE FROM WATCHED'; 
-          window.location.reload();
+          modal.style.display = 'none';
+          modalContentWrapper.remove();
           console.log(localStorage);
         });
       };
@@ -124,7 +126,8 @@ function displayMovieDetails(movie) {
         queueButton.classList.add('btnmodal')
         queueButton.classList.remove('btnmodal2');
         queueButton.textContent = 'ADD TO QUEUE';
-        location.reload();
+        modal.style.display = 'none';
+        modalContentWrapper.remove();
         console.log(localStorage)
       })} else {
         queueButton.addEventListener("click", () => {
@@ -138,7 +141,8 @@ function displayMovieDetails(movie) {
             wls.splice(i, 1);
             localStorage.setItem('watched', JSON.stringify(watchedLocalStorage))
           }
-          location.reload();
+          modal.style.display = 'none';
+          modalContentWrapper.remove();
           console.log(localStorage)
         })
       };
