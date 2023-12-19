@@ -29,7 +29,8 @@ if (localStorage.getItem('watched') === null) {
 
 // Local Storage Manage  ---
 
-const apiKey = process.env.API_KEY;
+//const apiKey = process.env.API_KEY;
+const apiKey = "0a3a4e00d84de20a8f1b6dfc8a7cdfd5";
 
 
 function getLocalStorage(arr, page) {
