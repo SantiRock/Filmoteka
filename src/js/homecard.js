@@ -3,7 +3,7 @@ import displayMovieDetails from './modal';
 
 
 const filmsContainer = document.querySelector('.films');
-const moviesPerPage = 12;
+const moviesPerPage = 18;
 
 // Diseño de tarjetas (posters)
 

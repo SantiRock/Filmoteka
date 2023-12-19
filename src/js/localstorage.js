@@ -1,13 +1,5 @@
 const watchedLocalStorage = { watchedId: [] };
-const queueLocalStorage = { queueId: [] };
 
-function getLocalq () {
-    if (localStorage.getItem('queue') === null) {
-        queueLocalStorage.watchedId = [];
-    } else {
-        queueLocalStorage.queueId = JSON.parse(localStorage.getItem('queue')).queueId;
-    }
-}
 
 function getLocalw () {
     if (localStorage.getItem('watched') === null) {
@@ -17,8 +9,6 @@ function getLocalw () {
     }
 }
 
-getLocalq();
 getLocalw();
 
-
-export {watchedLocalStorage, queueLocalStorage, getLocalw, getLocalq};
+export {watchedLocalStorage, getLocalw};

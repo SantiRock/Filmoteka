@@ -1,8 +1,11 @@
+require('dotenv').config();
+const apiKey = process.env.API_KEY;
+
 let genresArr = [];
 
 function loadGenres() {
     return fetch(
-      `https://api.themoviedb.org/3/genre/movie/list?api_key=0a3a4e00d84de20a8f1b6dfc8a7cdfd5&language=en-US`
+      `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`
     )
       .then(response => {
         if (!response.ok) {

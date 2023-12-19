@@ -11,8 +11,18 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Roboto:wght@400;500;700;900&display=swap"
     rel="stylesheet">
+  <link rel="shortcut icon" type="image/icon" href="./images/favicon.ico"/>
   <title>Filmoteka</title>
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YP77BBGFDT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YP77BBGFDT');
+</script>
 
 <body>
   <header>
@@ -58,32 +68,13 @@
 </div>
 
   <footer>
-    <p class="footer__rights">©&nbsp;&nbsp;2020 | All Rights Reserved |</p>
+    <p class="footer__rights">2023 |</p>
     <div class="footer__m">
-      <p class="dev">Developed with</p>
-      <svg class="icon--footer">
-        <use href="./images/symbol-defs.svg#icon-icon-heart"></use>
-      </svg>
-      <p class="by">by&nbsp;</p>
-      <a href="#" id="open-modal">GoIT Students</a>
-    </div>
-    <div id="modal-container">
-      <div id="modal">
-        <h2 class="modal-container__title">Equipo De Desarrollo</h2>
-        <ul class="modal-container__list">
-          <li>Conrado Hernán Villa</li>
-          <li>Angie Vargas</li>
-          <li>Santiago Quintero</li>
-          <li>Angélica González</li>
-        </ul>
-        <button id="close-modal">X</button>
-        <button class="cleanls">Clean Local Storage</button>
-      </div>
+      <p class="dev">Developed with JavaScript Vanilla</p>
     </div>
   </footer>
   <script type="module" src="./js/index.js"></script>
   <script type="module" src="./js/input.js"></script>
-  <script src="./js/modal-footer.js"></script>
 </body>
 
 </html>

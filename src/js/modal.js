@@ -1,4 +1,4 @@
-import { watchedLocalStorage, queueLocalStorage } from "./localstorage";
+import { watchedLocalStorage } from "./localstorage";
 import { genresArr } from "./genres";
 
 
@@ -10,6 +10,8 @@ function displayMovieDetails(movie) {
   const orgtitle = orgtitle1.toUpperCase();
   const popularity = movie.popularity.toFixed(1);
   const rate = movie.vote_average.toFixed(1);
+  const year = movie.release_date && movie.release_date.slice(0, 4) || movie.first_air_date.slice(0, 4);
+
 
   const genreNames = movie.genre_ids;
       const names = [];
@@ -51,6 +53,10 @@ function displayMovieDetails(movie) {
             <th>${orgtitle}</th>
           </tr>
           <tr>
+            <th class='t1'>Year</th>
+            <th>${year}</th>
+          </tr>
+          <tr>
             <th class='t1'>Genre</th>
             <th>${gNames}</th>
           </tr>
@@ -58,8 +64,7 @@ function displayMovieDetails(movie) {
           <p>ABOUT</p>
           <p class='about'>${movie.overview}</p>
           <div class="modal-btns">
-            <button class="btnmodal addw">ADD TO WATCHED</button>
-            <button class="btnmodal addq">ADD TO QUEUE</button>
+            <button class="btnmodal addw">ADD TO LIBRARY</button>
         </div>
       </div>
     `;
@@ -77,10 +82,8 @@ function displayMovieDetails(movie) {
     });
 
     const wls = watchedLocalStorage.watchedId;
-    const qls = queueLocalStorage.queueId;
-  
+
     const watchButton = modalContentWrapper.querySelector(".addw");
-    const queueButton = modalContentWrapper.querySelector(".addq");
     //console.log(wls.includes(movie.id));
 
     if (wls.includes(movie.id)) {
@@ -93,61 +96,23 @@ function displayMovieDetails(movie) {
         localStorage.setItem('watched', JSON.stringify(watchedLocalStorage));
         watchButton.classList.add('btnmodal')
         watchButton.classList.remove('btnmodal2');
-        watchButton.textContent = 'ADD TO WATCHED';
+        watchButton.textContent = 'ADD TO LIBRARY';
         modal.style.display = 'none';
         modalContentWrapper.remove();
-        console.log(localStorage);
+        //console.log(localStorage);
       });} else {
         watchButton.addEventListener("click", () => {
           wls.push(movie.id);
           localStorage.setItem('watched', JSON.stringify(watchedLocalStorage));
-          if (qls.includes(movie.id)) {
-            const i = qls.indexOf(movie.id);
-            qls.splice(i, 1);
-            localStorage.setItem('queue', JSON.stringify(queueLocalStorage));
-          }
           watchButton.classList.add('btnmodal2')
           watchButton.classList.remove('btnmodal');
-          watchButton.textContent = 'REMOVE FROM WATCHED'; 
+          watchButton.textContent = 'REMOVE FROM LIBRARY'; 
           modal.style.display = 'none';
           modalContentWrapper.remove();
-          console.log(localStorage);
+          //console.log(localStorage);
         });
       };
 
-    if (qls.includes(movie.id)) {
-      queueButton.classList.add('btnmodal2')
-      queueButton.classList.remove('btnmodal');
-      queueButton.textContent = 'REMOVE FROM QUEUE';
-      queueButton.addEventListener('click', () => {
-        const i = qls.indexOf(movie.id);
-        qls.splice(i, 1);
-        localStorage.setItem('queue', JSON.stringify(queueLocalStorage));
-        queueButton.classList.add('btnmodal')
-        queueButton.classList.remove('btnmodal2');
-        queueButton.textContent = 'ADD TO QUEUE';
-        modal.style.display = 'none';
-        modalContentWrapper.remove();
-        console.log(localStorage)
-      })} else {
-        queueButton.addEventListener("click", () => {
-          qls.push(movie.id)
-          localStorage.setItem('queue', JSON.stringify(queueLocalStorage));
-          queueButton.classList.add('btnmodal2')
-          queueButton.classList.remove('btnmodal');
-          queueButton.textContent = 'REMOVE FORM QUEUE';
-          if (wls.includes(movie.id)) {
-            const i = wls.indexOf(movie.id);
-            wls.splice(i, 1);
-            localStorage.setItem('watched', JSON.stringify(watchedLocalStorage))
-          }
-          modal.style.display = 'none';
-          modalContentWrapper.remove();
-          console.log(localStorage)
-        })
-      };
-    
-  
     document.addEventListener('keydown', event => {
       if (event.key === 'Escape') {
         modal.style.display = 'none';
@@ -165,31 +130,5 @@ function displayMovieDetails(movie) {
 
   export default displayMovieDetails;
 
-
-  function getGenres(genreIds) {
-    const genres = {
-      28: "Action",
-      12: "Adventure",
-      16: "Animation",
-      35: "Comedy",
-      80: "Crime",
-      99: "Documentary",
-      18: "Drama",
-      10751: "Family",
-      14: "Fantasy",
-      36: "History",
-      27: "Horror",
-      10402: "Music",
-      9648: "Mystery",
-      10749: "Romance",
-      878: "Science Fiction",
-      10770: "TV Movie",
-      53: "Thriller",
-      10752: "War",
-      37: "Western",
-    };
-    return genreIds.map((id) => genres[id]).join(", ");
-  }
-  
 
 

@@ -1,9 +1,10 @@
+require('dotenv').config();
 import debounce from "lodash/debounce";
 import { genresArr, loadGenres } from "./genres";
 import displayMovieDetails from './modal';
 import { render, paginationH } from "./index";
 
-const apiKey = '0a3a4e00d84de20a8f1b6dfc8a7cdfd5';
+const apiKey = process.env.API_KEY;
 const searchInput = document.getElementById('search-input');
 const searchBtn = document.querySelector('.search-button')
 const errorp = document.querySelector('.errormsn');
@@ -16,7 +17,7 @@ let word = '';
 let currentPage = 1;
 let totalPages = 50;
 const pagesToShow = 5;
-const moviesPerPage = 12;
+const moviesPerPage = 18;
 const screen = document.querySelector('.screen');
 
 // Fetch ------
@@ -147,17 +148,21 @@ const pagination = () => {
     prevBtn.disabled = currentPage === 1;
     pages.append(prevBtn);
 
-    const first = document.createElement('button');
-    first.textContent = '1';
-    first.classList.add('page');
-    first.id = 'first';
-    first.disabled = currentPage === 1;
-    pages.append(first);
+    if( currentPage > 3) {
+        const first = document.createElement('button');
+        first.textContent = '1';
+        first.classList.add('page');
+        first.id= "first";
+        pages.append(first);
+    }
 
-    const dots = document.createElement('div');
-    dots.textContent = '...';
-    dots.classList.add('dots');
-    pages.append(dots);
+    if( currentPage > 4) {
+        const dots = document.createElement('div');
+        dots.textContent = '...';
+        dots.classList.add('dots');
+        pages.append(dots);
+    }
+
     const st1 = Math.max(currentPage - Math.floor(pagesToShow / 2), 1);
     const st2 = Math.max(currentPage - pagesToShow + 1, 1);
     const st3 = Math.max(currentPage - pagesToShow + 2, 1);
@@ -178,17 +183,21 @@ const pagination = () => {
         pages.append(pageButton);
     };
 
-    const dots1 = document.createElement('div');
-    dots1.textContent = '...';
-    dots1.classList.add('dots');
-    pages.append(dots1);
+    if(currentPage < totalPages - 3) {
+        const dots1 = document.createElement('div');
+        dots1.textContent = '...';
+        dots1.classList.add('dots');
+        pages.append(dots1);
+    }
 
-    const last = document.createElement('button');
-    last.textContent = totalPages;
-    last.classList.add('page');
-    last.id = 'last';
-    last.disabled = currentPage === totalPages
-    pages.append(last);
+    if(currentPage < totalPages - 2) {
+        const last = document.createElement('button');
+        last.textContent = totalPages;
+        last.classList.add('page');
+        last.id = 'last';
+        pages.append(last);
+    }
+
 
     const nextBtn = document.createElement('button');
     nextBtn.textContent = '→';

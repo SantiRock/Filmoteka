@@ -1,19 +1,20 @@
+require('dotenv').config();
 import makeMoviesPosters from './homecard.js';
 import '../sass/index.scss';
-console.log(localStorage);
 
 // Variables ----
-const media_type = 'all';
+const apiKey = process.env.API_KEY;
+const media_type = 'movie';
 const time_window = 'week';
 let currentPage = 1;
-let totalPages = 50;
+let totalPages = 500;
 const screen = document.querySelector('.screen');
 
 // Fetch & Render ----
 function uploadMovies() {
   screen.style.display = 'flex';
   return fetch(
-    `https://api.themoviedb.org/3/trending/${media_type}/${time_window}?api_key=0a3a4e00d84de20a8f1b6dfc8a7cdfd5&per_page=18&page=${currentPage}`
+    `https://api.themoviedb.org/3/trending/${media_type}/${time_window}?api_key=${apiKey}&per_page=18&page=${currentPage}`
   ).then(response => {
     if (!response.ok) {
       screen.style.display = 'none';
@@ -52,6 +53,7 @@ const paginationH = () => {
     });
     pages.append(prevBtn);
 
+    if( currentPage > 3) {
     const first = document.createElement('button');
     first.textContent = '1';
     first.classList.add('page');
@@ -62,11 +64,14 @@ const paginationH = () => {
       paginationH();
     });
     pages.append(first);
+    }
 
-    const dots = document.createElement('div');
-    dots.textContent = '...';
-    dots.classList.add('dots');
-    pages.append(dots);
+    if( currentPage > 4) {
+      const dots = document.createElement('div');
+      dots.textContent = '...';
+      dots.classList.add('dots');
+      pages.append(dots);
+    }
 
     const st1 = Math.max(currentPage - Math.floor(pagesToShow/2), 1);
     const st2 = Math.max(currentPage - pagesToShow + 1, 1);
@@ -93,21 +98,26 @@ const paginationH = () => {
       pages.append(pageButton);
     };
 
+    if( currentPage < 497 ){
     const dots1 = document.createElement('div');
     dots1.textContent = '...';
     dots1.classList.add('dots');
     pages.append(dots1);
 
-    const last = document.createElement('button');
-    last.textContent = totalPages;
-    last.classList.add('page');
-    last.disabled = currentPage === totalPages
-    last.addEventListener('click', () => {
-      currentPage = totalPages;
-      render();
-      paginationH();
-    });
-    pages.append(last);
+    }
+
+    if(currentPage < 498) {
+      const last = document.createElement('button');
+      last.textContent = totalPages;
+      last.classList.add('page');
+      last.disabled = currentPage === totalPages
+      last.addEventListener('click', () => {
+        currentPage = totalPages;
+        render();
+        paginationH();
+      });
+      pages.append(last);
+    }
 
     const nextBtn = document.createElement('button');
     nextBtn.textContent = '→';
