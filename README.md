@@ -1,2 +1,2 @@
 Filmoteka
-Developed with React
+Developed with Javascript Vanilla
